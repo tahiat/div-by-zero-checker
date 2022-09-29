@@ -94,6 +94,12 @@ public class DivByZeroTransfer extends CFTransfer {
             AnnotationMirror lhs,
             AnnotationMirror rhs) {
         // TODO
+
+        if(operator.equals(BinaryOperator.PLUS) && this.equal(lhs, top()))
+        {
+
+        }
+
         return top();
     }
 
