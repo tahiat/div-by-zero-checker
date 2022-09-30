@@ -72,6 +72,42 @@ public class DivByZeroTransfer extends CFTransfer {
             AnnotationMirror lhs,
             AnnotationMirror rhs) {
         // TODO
+
+        //TODO: duplicated code
+        AnnotationMirror top = reflect(Top.class);
+        AnnotationMirror zero = reflect(Zero.class);
+        AnnotationMirror non_zero = reflect(NonZero.class);
+        AnnotationMirror positive = reflect(Positive.class);
+        AnnotationMirror negative = reflect(Negative.class);
+        AnnotationMirror bottom = reflect(Bottom.class);
+
+        // cases for eq operator
+        if(operator.equals(Comparison.EQ)){
+            return rhs;
+        }
+
+        // cases for ne operator
+        if(operator.equals(Comparison.NE)){
+            if (equal(rhs, zero)){
+                return non_zero;
+            }
+        }
+
+        if(operator.equals(Comparison.GT)){
+            if (equal(rhs, zero)){
+                return positive;
+            }
+        }
+
+        if(operator.equals(Comparison.LT)){
+            if (equal(rhs, zero)){
+                return negative;
+            }
+        }
+
+
+
+
         return lhs;
     }
 
@@ -95,10 +131,196 @@ public class DivByZeroTransfer extends CFTransfer {
             AnnotationMirror rhs) {
         // TODO
 
-        if(operator.equals(BinaryOperator.PLUS) && this.equal(lhs, top()))
+        //if any of lhs or rhs is bottom return bottom
+
+        AnnotationMirror top = reflect(Top.class);
+        AnnotationMirror zero = reflect(Zero.class);
+        AnnotationMirror non_zero = reflect(NonZero.class);
+        AnnotationMirror positive = reflect(Positive.class);
+        AnnotationMirror negative = reflect(Negative.class);
+        AnnotationMirror bottom = reflect(Bottom.class);
+
+        if (equal(lhs, bottom) || equal(rhs, bottom))
         {
+            return bottom;
+        }
+
+        // now if any of those is top, then output is top
+        if (equal(lhs, top) || equal(rhs, top))
+        {
+            return top;
+        }
+
+        
+        if(operator.equals(BinaryOperator.PLUS))
+        {
+            if (equal(lhs, zero))
+            {
+                if(equal(rhs, zero)){
+                    return zero;
+                }
+                else if (equal(rhs, non_zero)){
+                    return non_zero;
+                }
+                else if (equal(rhs, positive)){
+                    return positive;
+                }
+                else {
+                    return negative;
+                }
+            }
+            else if (equal(lhs, non_zero)){
+                if(equal(rhs, zero)){
+                    return non_zero;
+                }
+                else if (equal(rhs, non_zero)){
+                    return top();
+                }
+                else if (equal(rhs, positive)){
+                    return positive;
+                }
+                else {
+                    return negative;
+                }
+            }
+            else if (equal(lhs, positive)){
+                if(equal(rhs, zero)){
+                    return positive;
+                }
+                else if (equal(rhs, non_zero)){
+                    return top();
+                }
+                else if (equal(rhs, positive)){
+                    return positive;
+                }
+                else {
+                    return top;
+                }
+            }
+            else if (equal(lhs, negative)){ // should i use else
+                
+                if(equal(rhs, zero)){
+                    return negative;
+                }
+                else if (equal(rhs, non_zero)){
+                    return top();
+                }
+                else if (equal(rhs, positive)){
+                    return top;
+                }
+                else {
+                    return negative;
+                }
+            }
+        }
+
+
+        if (operator.equals(BinaryOperator.TIMES))
+        {
+            if (equal(lhs, zero))
+            {
+               return zero;
+            }
+            else if (equal(lhs, non_zero)){
+                if(equal(rhs, zero)){
+                    return zero;
+                }
+                else{
+                    return non_zero;
+                }
+            }
+            else if (equal(lhs, positive)){
+                if(equal(rhs, zero)){
+                    return zero;
+                }
+                else if (equal(rhs, non_zero)){
+                    return non_zero;
+                }
+                else if (equal(rhs, positive)){
+                    return positive;
+                }
+                else {
+                    return negative;
+                }
+            }
+            else if (equal(lhs, negative)){ // should i use else
+                
+                if(equal(rhs, zero)){
+                    return zero;
+                }
+                else if (equal(rhs, non_zero)){
+                    return non_zero;
+                }
+                else if (equal(rhs, positive)){
+                    return negative;
+                }
+                else {
+                    return positive;
+                }
+            }
 
         }
+
+
+        if (operator.equals(BinaryOperator.DIVIDE))
+        {
+            if (equal(lhs, zero))
+            {
+                if(equal(rhs, zero)){
+                    return top;
+                }
+                else {
+                    return zero;
+                }
+            }
+            else if (equal(lhs, non_zero)){
+                if(equal(rhs, zero)){
+                    return top;
+                }
+                else if (equal(rhs, non_zero)){
+                    return top();
+                }
+                else if (equal(rhs, positive)){
+                    return top;
+                }
+                else {
+                    return top;
+                }
+            }
+            else if (equal(lhs, positive)){
+                //return top;
+
+                if(equal(rhs, zero)){
+                    return top;
+                }
+                else if (equal(rhs, non_zero)){
+                    return top;
+                }
+                else if (equal(rhs, positive)){
+                    return top;
+                }
+                else {
+                    return top;
+                }
+            }
+            else if (equal(lhs, negative)){ // should i use else
+                
+                return top;
+                // if(equal(rhs, zero)){
+                //     return negative;
+                // }
+                // else if (equal(rhs, non_zero)){
+                //     return top();
+                // }
+                // else if (equal(rhs, positive)){
+                //     return top;
+                // }
+                // else {
+                //     return negative;
+                // }
+            }
+        }
+
 
         return top();
     }
