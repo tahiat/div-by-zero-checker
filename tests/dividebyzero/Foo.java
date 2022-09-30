@@ -87,4 +87,12 @@ class Foo {
         // :: error: divide.by.zero
         int k = 1/z;
     }
+
+    public static void j(){
+        for(int i = 5; i>=0; i= i-1)
+        {
+            // :: error: divide.by.zero
+            int value = 5/i;
+        }
+    }
 }

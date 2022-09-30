@@ -93,20 +93,29 @@ public class DivByZeroTransfer extends CFTransfer {
             }
         }
 
-        if(operator.equals(Comparison.GT)){
-            if (equal(rhs, zero)){
-                return positive;
-            }
-        }
-
         if(operator.equals(Comparison.LT)){
             if (equal(rhs, zero)){
                 return negative;
             }
+            if (equal(rhs, negative)){
+                return negative;
+            }
+
+        }
+        if(operator.equals(Comparison.LE)){
+            if (equal(rhs, negative)){
+                return negative;
+            }
         }
 
-
-
+        if(operator.equals(Comparison.GT)){
+            if (equal(rhs, zero)){
+                return positive;
+            }
+            if(equal(rhs, positive)){
+                return positive;
+            }
+        }
 
         return lhs;
     }
