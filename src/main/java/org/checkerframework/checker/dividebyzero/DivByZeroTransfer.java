@@ -71,9 +71,7 @@ public class DivByZeroTransfer extends CFTransfer {
             Comparison operator,
             AnnotationMirror lhs,
             AnnotationMirror rhs) {
-        // TODO
 
-        //TODO: duplicated code
         AnnotationMirror top = reflect(Top.class);
         AnnotationMirror zero = reflect(Zero.class);
         AnnotationMirror non_zero = reflect(NonZero.class);
@@ -138,8 +136,6 @@ public class DivByZeroTransfer extends CFTransfer {
             BinaryOperator operator,
             AnnotationMirror lhs,
             AnnotationMirror rhs) {
-        // TODO
-
         //if any of lhs or rhs is bottom return bottom
 
         AnnotationMirror top = reflect(Top.class);

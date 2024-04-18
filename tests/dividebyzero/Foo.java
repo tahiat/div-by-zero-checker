@@ -95,4 +95,18 @@ class Foo {
             int value = 5/i;
         }
     }
+
+    public static void tt(){
+        int x = 1-2;
+        int y = 1 /x;
+    }
+
+    public static void t(){
+        int x = 1 + 0;
+        int y = 1/x;
+
+        if (y != 0){
+            System.out.println(x/y);
+        }
+    }
 }
