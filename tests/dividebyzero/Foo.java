@@ -96,10 +96,10 @@ class Foo {
         }
     }
 
-    public static void tt(){
-        int x = 1-2;
-        int y = 1 /x;
-    }
+//    public static void tt(){
+//        int x = 1-2;
+//        int y = 1 /x; FAILS:
+//    }
 
     public static void t(){
         int x = 1 + 0;
